@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Copy, Download, Loader2, Music, PenTool, Check } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
+import MusicPlayer from '../MusicGenerator/MusicPlayer';
+import LyricsMusicGenerator from '../MusicGenerator/LyricsMusicGenerator';
 
 const ModernLyricsGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -161,60 +163,12 @@ const ModernLyricsGenerator = () => {
   
         {/* Display generated lyrics */}
         {generatedLyrics && (
-          <div className="mb-8 sm:mb-12 animate-fade-in">
-            <Card className="bg-white/10 backdrop-blur-xl border-none shadow-2xl">
-              <CardContent className="p-4 sm:p-8">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 sm:justify-between mb-4 sm:mb-6">
-                  <h2 className="text-xl sm:text-2xl font-bold text-white">Your Generated Lyrics</h2>
-                  <div className="flex gap-2 sm:gap-3">
-                    <button
-                      onClick={handleCopy}
-                      className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-300 text-white text-sm sm:text-base"
-                    >
-                      {copied ? <Check className="w-4 sm:w-5 h-4 sm:h-5" /> : <Copy className="w-4 sm:w-5 h-4 sm:h-5" />}
-                      {copied ? 'Copied!' : 'Copy'}
-                    </button>
-                    <button
-                      onClick={handleDownload}
-                      className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-all duration-300 text-white text-sm sm:text-base"
-                    >
-                      <Download className="w-4 sm:w-5 h-4 sm:h-5" />
-                      Download
-                    </button>
-                  </div>
-                </div>
-                <div className="bg-black/30 rounded-xl p-4 sm:p-6">
-                  {generatedLyrics.split('\n').map((line, index) => {
-                    const cleanLine = line.replace(/\\$/, '').trim();
-  
-                    if (!cleanLine) {
-                      return <div key={index} className="h-3 sm:h-4" />;
-                    }
-  
-                    if (cleanLine.startsWith('###')) {
-                      const headerText = cleanLine.replace(/^###\s*/, '');
-                      return (
-                        <div key={index} className="mt-6 sm:mt-8 mb-3 sm:mb-4 first:mt-0">
-                          <h3 className="text-lg sm:text-xl font-semibold text-purple-300">
-                            {headerText}
-                          </h3>
-                        </div>
-                      );
-                    }
-  
-                    return (
-                      <p 
-                        key={index} 
-                        className="text-white/90 leading-relaxed text-base sm:text-lg"
-                      >
-                        {cleanLine}
-                      </p>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <LyricsMusicGenerator
+            generatedLyrics={generatedLyrics}
+            songType={formData.songType}
+            lyricsStyle={formData.lyricsStyle}
+            userInput={formData.userInput}
+        />
         )}
       </div>
     </div>
